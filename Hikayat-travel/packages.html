@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIKAYAT TRAVELS & TOURS - Search Results</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .packages-container {
+            max-width: 1200px;
+            margin: 100px auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .search-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .search-header h1 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .package-image {
+            position: relative;
+            height: 200px;
+        }
+
+        .package-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .package-price {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: rgba(52, 152, 219, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-top-left-radius: 10px;
+        }
+
+        .package-details {
+            padding: 1.5rem;
+        }
+
+        .package-details h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-details p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .package-features {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .feature i {
+            margin-right: 0.5rem;
+            color: #3498db;
+        }
+
+        .book-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .book-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: transparent;
+            color: #3498db;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background-color: #f5f6fa;
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+        }
+
+        .user-icon-container {
+            display: flex;
+            align-items: center;
+            margin-right: 0.5rem;
+            position: relative;
+        }
+        .user-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid #3498db;
+            background: #fff;
+            cursor: pointer;
+        }
+        .user-dropdown {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 38px;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            min-width: 150px;
+            z-index: 1001;
+        }
+        .user-dropdown a {
+            color: #2c3e50;
+            padding: 0.8rem 1rem;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+            width: 100%;
+            display: block;
+        }
+        .user-dropdown a:last-child {
+            border-bottom: none;
+        }
+        .user-dropdown a:hover {
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>HIKAYAT TRAVELS & TOURS</h1>
+            </div>
+            <div class="nav-links" id="navLinks" style="display: flex; align-items: center; gap: 1rem;">
+                <!-- Language Switch Toggle -->
+                <label for="filter" class="switch" aria-label="Toggle Filter" style="margin-right: 1rem;">
+                  <input type="checkbox" id="filter" />
+                  <span>English</span>
+                  <span>Malay</span>
+                </label>
+                <!-- End Language Switch Toggle -->
+                <button onclick="window.location.href='login.html'" class="login-btn" data-i18n="login" style="margin-right: 0.5rem;">Login</button>
+                <div class="user-icon-container" id="userIconContainer" style="display:none; position: relative;">
+                    <img src="usericon.jpg" alt="User Icon" class="user-icon" id="userIconClickable">
+                    <div class="user-dropdown" id="userDropdown" style="display:none;">
+                        <a href="index.html" data-i18n="home">Home</a>
+                        <a href="profile.html" data-i18n="myProfile">My Profile</a>
+                        <a href="#" onclick="logout();return false;" data-i18n="logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="packages-container">
+        <div class="search-header">
+            <h1><span data-i18n="searchTitle">Travel Packages in</span> <span id="destination">Bali</span></h1>
+            <div class="filters">
+                <div class="filter-group">
+                    <select id="duration" onchange="filterPackages()">
+                        <option value="" data-i18n="duration">Duration</option>
+                        <option value="3-5" data-i18n="days3to5">3-5 Days</option>
+                        <option value="6-9" data-i18n="days6to9">6-9 Days</option>
+                        <option value="10+" data-i18n="days10plus">10+ Days</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="price" onchange="filterPackages()">
+                        <option value="" data-i18n="priceRange">Price Range</option>
+                        <option value="0-1000" data-i18n="under1000">Under $1,000</option>
+                        <option value="1000-2000" data-i18n="between1000and2000">$1,000 - $2,000</option>
+                        <option value="2000+" data-i18n="over2000">$2,000+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="rating" onchange="filterPackages()">
+                        <option value="" data-i18n="rating">Rating</option>
+                        <option value="4+" data-i18n="stars4plus">4+ Stars</option>
+                        <option value="3+" data-i18n="stars3plus">3+ Stars</option>
+                        <option value="2+" data-i18n="stars2plus">2+ Stars</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="start-date" data-i18n="startDate">Start Date</label>
+                    <input type="date" id="start-date" onchange="filterPackages()">
+                </div>
+                <div class="filter-group">
+                    <button type="button" class="more-filters-btn" onclick="toggleMoreFilters()" data-i18n="moreFilters">
+                        More Filters <span id="chevron">▼</span>
+                    </button>
+                    <div id="additional-filters" class="more-filters-panel" style="display: none;">
+                        <label><input type="checkbox" id="early-bird" onchange="filterPackages()"> <span data-i18n="earlyBird">Early-Bird Pricing</span></label>
+                        <label><input type="checkbox" id="group-discount" onchange="filterPackages()"> <span data-i18n="groupDiscount">Group Discount</span></label>
+                        <label><input type="checkbox" id="group-tour" onchange="filterPackages()"> <span data-i18n="groupTours">Group Tour</span></label>
+                        <label><input type="checkbox" id="family-friendly" onchange="filterPackages()"> <span data-i18n="familyFriendly">Family-friendly</span></label>
+                        <label><input type="checkbox" id="luxury" onchange="filterPackages()"> <span data-i18n="luxury">Luxury</span></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="packages-grid">
+            <!-- Package Card 1 -->
+            <div class="package-card">
+                <div class="package-image">
+                    <img src="noimage.jpg" alt="HIKAYAT TRAVELS & TOURS Logo">
+                    <div class="package-price">$899</div>
+                </div>
+                <div class="package-details">
+                    <h3 data-i18n="luxuryBali">Luxury Bali Resort Package</h3>
+                    <p data-i18n="luxuryBaliDesc">Experience the perfect blend of luxury and culture in this 7-day Bali adventure.</p>
+                    <div class="package-features">
+                        <div class="feature">
+                            <i class="fas fa-clock"></i>
+                            <span data-i18n="days7">7 Days</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-star"></i>
+                            <span>4.8</span>
+                        </div>
+                    </div>
+                    <button class="book-btn" onclick="bookPackage(1)" data-i18n="bookNow">Book Now</button>
+                    <button class="save-btn" onclick="savePackage(1)">
+                        <i class="far fa-heart"></i> <span data-i18n="savePackage">Save Package</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Package Card 2 -->
+            <div class="package-card">
+                <div class="package-image">
+                    <img src="noimage.jpg" alt="HIKAYAT TRAVELS & TOURS Logo">
+                    <div class="package-price">$699</div>
+                </div>
+                <div class="package-details">
+                    <h3 data-i18n="beachGetaway">Bali Beach Getaway</h3>
+                    <p data-i18n="beachGetawayDesc">Relax on pristine beaches and explore local culture in this 5-day package.</p>
+                    <div class="package-features">
+                        <div class="feature">
+                            <i class="fas fa-clock"></i>
+                            <span data-i18n="days5">5 Days</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-star"></i>
+                            <span>4.5</span>
+                        </div>
+                    </div>
+                    <button class="book-btn" onclick="bookPackage(2)" data-i18n="bookNow">Book Now</button>
+                    <button class="save-btn" onclick="savePackage(2)">
+                        <i class="far fa-heart"></i> <span data-i18n="savePackage">Save Package</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Package Card 3 -->
+            <div class="package-card">
+                <div class="package-image">
+                    <img src="noimage.jpg" alt="HIKAYAT TRAVELS & TOURS Logo">
+                    <div class="package-price">$799</div>
+                </div>
+                <div class="package-details">
+                    <h3 data-i18n="culturalExperience">Bali Cultural Experience</h3>
+                    <p data-i18n="culturalExperienceDesc">Immerse yourself in Balinese culture with temple visits and traditional activities.</p>
+                    <div class="package-features">
+                        <div class="feature">
+                            <i class="fas fa-clock"></i>
+                            <span data-i18n="days6">6 Days</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-star"></i>
+                            <span>4.7</span>
+                        </div>
+                    </div>
+                    <button class="book-btn" onclick="bookPackage(3)" data-i18n="bookNow">Book Now</button>
+                    <button class="save-btn" onclick="savePackage(3)">
+                        <i class="far fa-heart"></i> <span data-i18n="savePackage">Save Package</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="language.js"></script>
+    <script>
+        // Get destination from URL parameters
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const destination = urlParams.get('destination');
+            if (destination) {
+                document.getElementById('destination').textContent = destination;
+            }
+        }
+
+        function filterPackages() {
+            const duration = document.getElementById('duration').value;
+            const price = document.getElementById('price').value;
+            const rating = document.getElementById('rating').value;
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            const earlyBird = document.getElementById('early-bird').checked;
+            const groupDiscount = document.getElementById('group-discount').checked;
+            const groupTour = document.getElementById('group-tour').checked;
+            const familyFriendly = document.getElementById('family-friendly').checked;
+            const luxury = document.getElementById('luxury').checked;
+            
+            // Here you would typically make an API call to filter packages
+            console.log('Filtering packages:', { duration, price, rating, startDate, endDate, earlyBird, groupDiscount, groupTour, familyFriendly, luxury });
+        }
+
+        function bookPackage(packageId) {
+            // Check if user is logged in
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                // Redirect to the discount page with the package ID
+                window.location.href = `discount.html?packageId=${packageId}`;
+            } else {
+                // Store intended package and redirect to login
+                localStorage.setItem('intendedPackageId', packageId);
+                window.location.href = 'login.html';
+            }
+        }
+
+        function savePackage(packageId) {
+            // Here you would typically make an API call to save the package
+            console.log('Saving package:', packageId);
+            alert('Package saved to your profile!');
+        }
+
+        function logout() {
+            // Here you would typically clear any session data
+            window.location.href = 'index.html';
+        }
+
+        function toggleMoreFilters() {
+            const additionalFilters = document.getElementById('additional-filters');
+            const chevron = document.getElementById('chevron');
+            if (additionalFilters.style.display === 'none') {
+                additionalFilters.style.display = 'block';
+                chevron.textContent = '▲';
+            } else {
+                additionalFilters.style.display = 'none';
+                chevron.textContent = '▼';
+            }
+        }
+
+        // User icon dropdown logic
+        document.addEventListener('DOMContentLoaded', function() {
+            var userIcon = document.getElementById('userIconClickable');
+            var userDropdown = document.getElementById('userDropdown');
+            var userIconContainer = document.getElementById('userIconContainer');
+            var navLinks = document.getElementById('navLinks');
+            if (userIcon) {
+                userIcon.onclick = function(e) {
+                    e.stopPropagation();
+                    if (userDropdown.style.display === 'none' || userDropdown.style.display === '') {
+                        userDropdown.style.display = 'flex';
+                    } else {
+                        userDropdown.style.display = 'none';
+                    }
+                };
+                document.body.addEventListener('click', function() {
+                    if (userDropdown) userDropdown.style.display = 'none';
+                });
+            }
+            // Hide login/signup when logged in, show only icon
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                if (navLinks) {
+                    var loginBtn = navLinks.querySelector('.login-btn');
+                    var signupBtn = navLinks.querySelector('.signup-btn');
+                    if (loginBtn) loginBtn.style.display = 'none';
+                    if (signupBtn) signupBtn.style.display = 'none';
+                    if (userIconContainer) userIconContainer.style.display = 'flex';
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

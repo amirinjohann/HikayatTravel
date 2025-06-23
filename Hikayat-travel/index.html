@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIKAYAT TRAVELS & TOURS - Find Your Perfect Travel Package</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .site-logo {
+            height: 2.7rem;
+            width: auto;
+            margin-right: 1rem;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-left" style="display: flex; align-items: center;">
+                <div class="logo" style="display: flex; align-items: center;">
+                    <img src="logo.jpg" alt="Hikayat Logo" class="site-logo">
+                    <h1 style="margin: 0;">HIKAYAT TRAVELS & TOURS</h1>
+                </div>
+            </div>
+            <div class="nav-right" style="display: flex; align-items: center; gap: 1rem;">
+
+                <!-- Language Switch Toggle -->
+                <label for="filter" class="switch" aria-label="Toggle Filter" style="margin-right: 1rem;">
+                  <input type="checkbox" id="filter" />
+                  <span>English</span>
+                  <span>Malay</span>
+                </label>
+                <!-- End Language Switch Toggle -->
+                 
+                <button onclick="window.location.href='login.html'" class="login-btn" data-i18n="login" style="margin-right: 0.5rem;">Login</button>
+                <a href="login.html" class="signup-btn" data-i18n="signup">Sign Up</a>
+                <div class="user-icon-container" id="userIconContainer" style="display:none; position: relative;">
+                    <img src="usericon.jpg" alt="User Icon" class="user-icon" id="userIconClickable">
+                    <div class="user-dropdown" id="userDropdown" style="display:none;">
+                        <a href="index.html" data-i18n="home">Home</a>
+                        <a href="profile.html" data-i18n="myProfile">My Profile</a>
+                        <a href="#" onclick="logout();return false;" data-i18n="logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1 data-i18n="heroTitle">Discover Your Dream Vacation</h1>
+            <p data-i18n="heroSubtitle">Find the best travel packages tailored to your preferences</p>
+            
+            <div class="search-container">
+                <form id="searchForm" onsubmit="searchPackages(event)">
+                    <div class="search-box">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" id="destination" data-i18n="destinationPlaceholder" placeholder="Where do you want to go?" required>
+                    </div>
+                    <button type="submit" class="search-btn" data-i18n="searchBtn">Search Packages</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="featured-destinations">
+            <h2 data-i18n="featuredTitle">Popular Destinations</h2>
+            <div class="destination-grid">
+                <div class="destination-card">
+                    <img src="bali.jpg" alt="HIKAYAT TRAVELS & TOURS Logo">
+                    <h3>Bali</h3>
+                    <p><span data-i18n="startingFrom">Starting from</span> $899</p>
+                </div>
+                <div class="destination-card">
+                    <img src="noimage.jpg" alt="HIKAYAT TRAVELS & TOURS Logo">
+                    <h3>Paris</h3>
+                    <p><span data-i18n="startingFrom">Starting from</span> $1299</p>
+                </div>
+                <div class="destination-card">
+                    <img src="noimage.jpg" alt="HIKAYAT TRAVELS & TOURS Logo">
+                    <h3>Tokyo</h3>
+                    <p><span data-i18n="startingFrom">Starting from</span> $1499</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 data-i18n="aboutTitle">About Us</h3>
+                <p data-i18n="aboutText">Your trusted partner in finding the perfect travel packages.</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="contactTitle">Contact</h3>
+                <p data-i18n="contactEmail">Email: info@travelpackages.com</p>
+                <p data-i18n="contactPhone">Phone: 1-800-TRAVEL</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-i18n="copyright">&copy; 2024 HIKAYAT TRAVELS & TOURS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="language.js"></script>
+    <script>
+        // User icon dropdown logic
+        document.addEventListener('DOMContentLoaded', function() {
+            var userIcon = document.getElementById('userIconClickable');
+            var userDropdown = document.getElementById('userDropdown');
+            var userIconContainer = document.getElementById('userIconContainer');
+            var navRight = document.querySelector('.nav-right');
+            
+            if (userIcon) {
+                userIcon.onclick = function(e) {
+                    e.stopPropagation();
+                    if (userDropdown.style.display === 'none' || userDropdown.style.display === '') {
+                        userDropdown.style.display = 'flex';
+                    } else {
+                        userDropdown.style.display = 'none';
+                    }
+                };
+                document.body.addEventListener('click', function() {
+                    if (userDropdown) userDropdown.style.display = 'none';
+                });
+            }
+            
+            // Handle login state
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                // User is logged in - show user icon on right
+                var loginBtn = navRight.querySelector('.login-btn');
+                var signupBtn = navRight.querySelector('.signup-btn');
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (signupBtn) signupBtn.style.display = 'none';
+                if (userIconContainer) userIconContainer.style.display = 'flex';
+            } else {
+                // User is not logged in - show only login button on right
+                var signupBtn = navRight.querySelector('.signup-btn');
+                if (signupBtn) signupBtn.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html> 
