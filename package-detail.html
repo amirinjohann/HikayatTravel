@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package Details - HIKAYAT TRAVELS & TOURS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #fff; }
+        .detail-container { max-width: 900px; margin: 100px auto 2rem; padding: 0 1rem 2rem 1rem; background: #fff; border-radius: 18px; box-shadow: 0 4px 32px rgba(44,62,80,0.08); border: 1.5px solid #e3eaf3; }
+        .detail-header { display: flex; flex-wrap: wrap; gap: 2.5rem; align-items: flex-start; margin-bottom: 2rem; background: #fff; border-radius: 14px; box-shadow: 0 2px 12px rgba(52,152,219,0.08); padding: 2rem 1.5rem; }
+        .detail-image { flex: 1 1 320px; min-width: 320px; box-shadow: 0 2px 12px rgba(52,152,219,0.09); border-radius: 12px; background: #fff; }
+        .detail-image img { width: 100%; border-radius: 12px; object-fit: cover; }
+        .detail-info { flex: 2 1 400px; }
+        .detail-title { color: #217dbb; font-size: 2.3rem; margin-bottom: 0.7rem; font-weight: 800; letter-spacing: 0.5px; text-shadow: 0 2px 8px #e3f0fc; }
+        .detail-location { color: #3498db; font-size: 1.13rem; margin-bottom: 1.2rem; font-weight: 600; }
+        .detail-description { color: #3a4a5d; margin-bottom: 1.2rem; font-size: 1.09rem; line-height: 1.7; }
+        .detail-highlights { color: #217dbb; margin-bottom: 1.5rem; font-size: 1.04rem; }
+        .weather-section { margin: 2.5rem 0 2rem 0; background: #e3f0fc; border-radius: 12px; padding: 1.5rem; box-shadow: 0 1px 8px rgba(52,152,219,0.09); border: 1.5px solid #d0e6fa; }
+        .weather-title { color: #217dbb; font-size: 1.18rem; margin-bottom: 1rem; font-weight: 700; }
+        .weather-forecast { display: flex; gap: 1rem; overflow-x: auto; }
+        .weather-day { background: #fff; border-radius: 10px; box-shadow: 0 1px 6px rgba(52,152,219,0.06); padding: 1rem; min-width: 120px; text-align: center; border: 1px solid #e3eaf3; }
+        .weather-day img { width: 48px; height: 48px; }
+        .activities-section { margin: 2rem 0; background: #e3f0fc; border-radius: 12px; padding: 1.2rem 1.5rem; border: 1.5px solid #d0e6fa; box-shadow: 0 1px 8px rgba(52,152,219,0.07); }
+        .activities-title { color: #217dbb; font-size: 1.15rem; margin-bottom: 1rem; font-weight: 700; }
+        .activities-list { color: #3a4a5d; margin-left: 1.5rem; font-size: 1.03rem; }
+        .itinerary-section { margin: 2rem 0; background: #e3f0fc; border-radius: 12px; padding: 1.2rem 1.5rem; border: 1.5px solid #d0e6fa; box-shadow: 0 1px 8px rgba(52,152,219,0.07); }
+        .itinerary-title { color: #217dbb; font-size: 1.15rem; margin-bottom: 1rem; font-weight: 700; }
+        .itinerary-day { margin-bottom: 1.1rem; }
+        .itinerary-day-title { color: #3498db; font-weight: 700; margin-bottom: 0.3rem; }
+        .itinerary-activity { color: #3a4a5d; margin-left: 1.2rem; font-size: 1.03rem; }
+        .reviews-section { margin: 2.5rem 0 1.5rem 0; background: #e3f0fc; border-radius: 12px; padding: 1.2rem 1.5rem; border: 1.5px solid #d0e6fa; box-shadow: 0 1px 8px rgba(52,152,219,0.07); }
+        .reviews-title { color: #217dbb; font-size: 1.15rem; margin-bottom: 1rem; font-weight: 700; }
+        .review-card { background: #fff; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 1px 6px rgba(52,152,219,0.05); border: 1px solid #e3eaf3; }
+        .review-user { color: #3498db; font-weight: bold; }
+        .review-rating { color: #f39c12; margin-left: 0.5rem; }
+        .review-comment { color: #3a4a5d; margin: 0.5rem 0; }
+        .review-date { color: #888; font-size: 0.9rem; }
+        .book-btn-detail { display: block; width: 100%; max-width: 320px; margin: 2.5rem auto 0 auto; background: #3498db; color: #fff; font-size: 1.15rem; font-weight: 700; border: none; border-radius: 10px; padding: 1rem 0; cursor: pointer; box-shadow: 0 2px 12px rgba(52,152,219,0.10); transition: background 0.2s; letter-spacing: 0.5px; }
+        .book-btn-detail:hover { background: #217dbb; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>HIKAYAT TRAVELS & TOURS</h1>
+            </div>
+            <div class="nav-links" id="navLinks" style="display: flex; align-items: center;">
+                <button onclick="window.location.href='login.html'" class="login-btn" data-i18n="login" style="margin-right: 0.5rem;">Login</button>
+                <a href="index.html" class="signup-btn">Home</a>
+                <div class="user-icon-container" id="userIconContainer" style="display:none; position: relative;">
+                    <img src="images/usericon.jpg" alt="User Icon" class="user-icon" id="userIconClickable">
+                    <div class="user-dropdown" id="userDropdown" style="display:none;">
+                        <a href="index.html" data-i18n="home">Home</a>
+                        <a href="profile.html" data-i18n="myProfile">My Profile</a>
+                        <a href="#" onclick="logout();return false;" data-i18n="logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="detail-container" id="detailContainer">
+        <!-- Package details will be loaded here -->
+    </div>
+    <script src="js/default-packages.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/chat-widget.js"></script>
+    <script>
+    // Helper: Get query param
+    function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+    // Helper: Format date
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+    // Load package details
+    async function loadPackageDetail() {
+        const packageId = parseInt(getQueryParam('packageId'));
+        const packages = JSON.parse(localStorage.getItem('packages') || '[]');
+        const pkg = packages.find(p => p.id === packageId);
+        const container = document.getElementById('detailContainer');
+        if (!pkg) {
+            container.innerHTML = '<div style="padding:2rem;text-align:center;color:#c0392b;">Package not found.</div>';
+            return;
+        }
+        // Main info
+        let html = `<div class="detail-header">
+            <div class="detail-image"><img src="${pkg.image}" alt="${pkg.title}"></div>
+            <div class="detail-info">
+                <div class="detail-title">${pkg.title}</div>
+                <div class="detail-location"><i class='fas fa-map-marker-alt'></i> ${pkg.location}</div>
+                <div class="detail-description">${pkg.description}</div>
+                ${pkg.highlights ? `<div class="detail-highlights"><strong>Highlights:</strong> ${pkg.highlights}</div>` : ''}
+            </div>
+        </div>`;
+        // Weather section
+        html += `<div class="weather-section"><div class="weather-title"><i class="fas fa-cloud-sun"></i> 7-Day Weather Forecast</div><div class="weather-forecast" id="weatherForecast">Loading weather...</div></div>`;
+        // Activities section (from highlights)
+        if (pkg.highlights) {
+            html += `<div class="activities-section"><div class="activities-title"><i class="fas fa-list"></i> Activities to Do</div><ul class="activities-list">`;
+            pkg.highlights.split(',').forEach(act => {
+                html += `<li>${act.trim()}</li>`;
+            });
+            html += `</ul></div>`;
+        }
+        // Itinerary section (sample 3-day itinerary)
+        html += `<div class="itinerary-section"><div class="itinerary-title"><i class="fas fa-route"></i> Sample Itinerary</div>`;
+        const itinerary = pkg.itinerary || [
+            { day: 'Day 1', title: 'Arrival & Welcome', activities: ['Airport pickup and transfer to hotel', 'Hotel check-in and welcome briefing', 'City orientation tour', 'Welcome dinner at local restaurant'] },
+            { day: 'Day 2', title: 'Adventure Begins', activities: ['Breakfast at hotel', 'Guided tour of main attractions', 'Lunch at scenic location', 'Optional activities and free time', 'Dinner and cultural experience'] },
+            { day: 'Day 3', title: 'Exploration & Departure', activities: ['Breakfast and final preparations', 'Final sightseeing and shopping', 'Transfer to airport', 'Departure'] }
+        ];
+        itinerary.forEach(d => {
+            html += `<div class="itinerary-day"><div class="itinerary-day-title">${d.day} - ${d.title}</div>`;
+            d.activities.forEach(act => {
+                html += `<div class="itinerary-activity">• ${act}</div>`;
+            });
+            html += `</div>`;
+        });
+        html += `</div>`;
+        // Reviews section
+        html += `<div class="reviews-section"><div class="reviews-title"><i class="fas fa-comments"></i> User Reviews</div><div id="reviewsList">Loading reviews...</div></div>`;
+        // Book Now button
+        html += `<button class="book-btn-detail" onclick="bookNow(${pkg.id})"><i class='fas fa-suitcase-rolling'></i> Book Now</button>`;
+        container.innerHTML = html;
+        // Fetch weather
+        fetchWeather(pkg.location);
+        // Load reviews
+        loadReviews(pkg.title);
+    }
+    // Fetch weather for location (OpenWeatherMap 7-day forecast)
+    async function fetchWeather(location) {
+        const weatherDiv = document.getElementById('weatherForecast');
+        // Use OpenWeatherMap Geocoding API to get lat/lon
+        try {
+            const geoRes = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(location)}&limit=1&appid=YOUR_OPENWEATHERMAP_API_KEY`);
+            const geoData = await geoRes.json();
+            if (!geoData[0]) { weatherDiv.textContent = 'Weather data not found.'; return; }
+            const { lat, lon } = geoData[0];
+            // Get 7-day forecast
+            const weatherRes = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&units=metric&appid=YOUR_OPENWEATHERMAP_API_KEY`);
+            const weatherData = await weatherRes.json();
+            if (!weatherData.daily) { weatherDiv.textContent = 'Weather data not found.'; return; }
+            let html = '';
+            weatherData.daily.slice(0,7).forEach(day => {
+                html += `<div class="weather-day">
+                    <div>${formatDate(day.dt*1000)}</div>
+                    <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" alt="${day.weather[0].main}">
+                    <div><strong>${Math.round(day.temp.day)}°C</strong></div>
+                    <div style="color:#888;font-size:0.9em;">${day.weather[0].main}</div>
+                </div>`;
+            });
+            weatherDiv.innerHTML = html;
+        } catch (e) {
+            weatherDiv.textContent = 'Unable to load weather.';
+        }
+    }
+    // Load reviews for this package
+    function loadReviews(packageTitle) {
+        const reviewsList = document.getElementById('reviewsList');
+        const reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+        const filtered = reviews.filter(r => r.packageName === packageTitle);
+        if (filtered.length === 0) {
+            reviewsList.innerHTML = '<div style="color:#888;">No reviews yet for this package.</div>';
+            return;
+        }
+        let html = '';
+        filtered.forEach(r => {
+            html += `<div class="review-card">
+                <div><span class="review-user">${r.userName}</span><span class="review-rating">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span></div>
+                <div class="review-comment">${r.comment}</div>
+                <div class="review-date">${new Date(r.createdAt).toLocaleDateString()}</div>
+            </div>`;
+        });
+        reviewsList.innerHTML = html;
+    }
+    // User icon dropdown logic (reuse from other pages)
+    document.addEventListener('DOMContentLoaded', function() {
+        loadPackageDetail();
+        var userIcon = document.getElementById('userIconClickable');
+        var userDropdown = document.getElementById('userDropdown');
+        var userIconContainer = document.getElementById('userIconContainer');
+        var navLinks = document.getElementById('navLinks');
+        if (userIcon) {
+            userIcon.onclick = function(e) {
+                e.stopPropagation();
+                if (userDropdown.style.display === 'none' || userDropdown.style.display === '') {
+                    userDropdown.style.display = 'flex';
+                } else {
+                    userDropdown.style.display = 'none';
+                }
+            };
+            document.body.addEventListener('click', function() {
+                if (userDropdown) userDropdown.style.display = 'none';
+            });
+        }
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            if (navLinks) {
+                var loginBtn = navLinks.querySelector('.login-btn');
+                var signupBtn = navLinks.querySelector('.signup-btn');
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (signupBtn) signupBtn.style.display = 'none';
+                if (userIconContainer) userIconContainer.style.display = 'flex';
+            }
+        }
+    });
+    function logout() {
+        localStorage.removeItem('user');
+        localStorage.removeItem('isLoggedIn');
+        window.location.href = 'index.html';
+    }
+    // Book Now button handler
+    function bookNow(packageId) {
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = `discount.html?packageId=${packageId}`;
+        } else {
+            localStorage.setItem('intendedPackageId', packageId);
+            window.location.href = 'login.html';
+        }
+    }
+    </script>
+</body>
+</html> 

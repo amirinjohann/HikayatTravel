@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIKAYAT TRAVELS & TOURS - Search Results</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .packages-container {
+            max-width: 1200px;
+            margin: 100px auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .search-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .search-header h1 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .package-image {
+            position: relative;
+            height: 200px;
+        }
+
+        .package-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .package-price {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: rgba(52, 152, 219, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-top-left-radius: 10px;
+        }
+
+        .package-details {
+            padding: 1.5rem;
+        }
+
+        .package-details h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-details p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .package-features {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .feature i {
+            margin-right: 0.5rem;
+            color: #3498db;
+        }
+
+        .book-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .book-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: transparent;
+            color: #3498db;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background-color: #f5f6fa;
+        }
+
+        .clear-filters-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .clear-filters-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .more-filters-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #95a5a6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .more-filters-btn:hover {
+            background-color: #7f8c8d;
+        }
+
+        .more-filters-panel {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .more-filters-panel label {
+            display: block;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+
+        .more-filters-panel input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: #e8f4fd;
+            border-radius: 5px;
+            border: 1px solid #3498db;
+        }
+
+        .active-filter-tag {
+            background: #3498db;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .active-filter-tag .remove {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+        }
+
+        .user-icon-container {
+            display: flex;
+            align-items: center;
+            margin-right: 0.5rem;
+            position: relative;
+        }
+        .user-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid #3498db;
+            background: #fff;
+            cursor: pointer;
+        }
+        .user-dropdown {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 38px;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            min-width: 150px;
+            z-index: 1001;
+        }
+        .user-dropdown a {
+            color: #2c3e50;
+            padding: 0.8rem 1rem;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+            width: 100%;
+            display: block;
+        }
+        .user-dropdown a:last-child {
+            border-bottom: none;
+        }
+        .user-dropdown a:hover {
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>HIKAYAT TRAVELS & TOURS</h1>
+            </div>
+            <div class="nav-links" id="navLinks" style="display: flex; align-items: center; gap: 1rem;">
+                <!-- Language Switch Toggle -->
+                <label for="filter" class="switch" aria-label="Toggle Filter" style="margin-right: 1rem;">
+                  <input type="checkbox" id="filter" />
+                  <span>English</span>
+                  <span>Malay</span>
+                </label>
+                <!-- End Language Switch Toggle -->
+                <button onclick="window.location.href='login.html'" class="login-btn" data-i18n="login" style="margin-right: 0.5rem;">Login</button>
+                <div class="user-icon-container" id="userIconContainer" style="display:none; position: relative;">
+                    <img src="images/usericon.jpg" alt="User Icon" class="user-icon" id="userIconClickable">
+                    <div class="user-dropdown" id="userDropdown" style="display:none;">
+                        <a href="index.html" data-i18n="home">Home</a>
+                        <a href="profile.html" data-i18n="myProfile">My Profile</a>
+                        <a href="#" onclick="logout();return false;" data-i18n="logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="packages-container">
+        <div class="search-header">
+            <h1><span data-i18n="searchTitle">Travel Packages in</span> <span id="destination"></span></h1>
+            <div class="filters">
+                <div class="filter-group">
+                    <select id="duration" onchange="filterPackages()">
+                        <option value="" data-i18n="duration">Duration</option>
+                        <option value="3-5" data-i18n="days3to5">3-5 Days</option>
+                        <option value="6-9" data-i18n="days6to9">6-9 Days</option>
+                        <option value="10+" data-i18n="days10plus">10+ Days</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="price" onchange="filterPackages()">
+                        <option value="" data-i18n="priceRange">Price Range</option>
+                        <option value="0-1999" data-i18n="under1999">Under RM1,999</option>
+                        <option value="2000-4999" data-i18n="between2000and4999">RM2,000 - RM4,999</option>
+                        <option value="5000-9999" data-i18n="between5000and9999">RM5,000 - RM9,999</option>
+                        <option value="10000+" data-i18n="over10000">Over RM10,000</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="rating" onchange="filterPackages()">
+                        <option value="" data-i18n="rating">Rating</option>
+                        <option value="4+" data-i18n="stars4plus">4+ Stars</option>
+                        <option value="3+" data-i18n="stars3plus">3+ Stars</option>
+                        <option value="2+" data-i18n="stars2plus">2+ Stars</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button type="button" class="more-filters-btn" onclick="toggleMoreFilters()" data-i18n="moreFilters">
+                        More Filters <span id="chevron">▼</span>
+                    </button>
+                    <div id="additional-filters" class="more-filters-panel" style="display: none;">
+                        <label><input type="checkbox" id="early-bird" onchange="filterPackages()"> <span data-i18n="earlyBird">Early-Bird Pricing</span></label>
+                        <label><input type="checkbox" id="group-discount" onchange="filterPackages()"> <span data-i18n="groupDiscount">Group Discount</span></label>
+                        <label><input type="checkbox" id="group-tour" onchange="filterPackages()"> <span data-i18n="groupTours">Group Tour</span></label>
+                        <label><input type="checkbox" id="family-friendly" onchange="filterPackages()"> <span data-i18n="familyFriendly">Family-friendly</span></label>
+                        <label><input type="checkbox" id="luxury" onchange="filterPackages()"> <span data-i18n="luxury">Luxury</span></label>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <button type="button" class="clear-filters-btn" onclick="clearFilters()" data-i18n="clearFilters">
+                        Clear Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="packages-grid" id="packages-grid">
+            <!-- Packages will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script src="js/default-packages.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/chat-widget.js"></script>
+    <script>
+        // Get destination from URL parameters
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const destination = urlParams.get('destination');
+            document.getElementById('destination').textContent = destination ? destination : "All Destinations";
+            
+            // Load packages on page load
+            loadPackages();
+        }
+        
+        // Function to load and display packages
+        function loadPackages() {
+            const packagesGrid = document.getElementById('packages-grid');
+            const packages = JSON.parse(localStorage.getItem('packages') || '[]');
+            const destination = document.getElementById('destination').textContent;
+            
+            if (packagesGrid) {
+                packagesGrid.innerHTML = '';
+                
+                if (packages.length === 0) {
+                    packagesGrid.innerHTML = `
+                        <div style=\"grid-column: 1 / -1; text-align: center; padding: 3rem; color: #666;\">
+                            <h3>No packages available</h3>
+                            <p>Check back later for exciting travel packages!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Filter packages by availability (only show available and limited)
+                const availablePackages = packages.filter(pkg => 
+                    pkg.availability === 'available' || pkg.availability === 'limited'
+                );
+                
+                if (availablePackages.length === 0) {
+                    packagesGrid.innerHTML = `
+                        <div style=\"grid-column: 1 / -1; text-align: center; padding: 3rem; color: #666;\">
+                            <h3>No available packages</h3>
+                            <p>All packages are currently unavailable. Please check back later!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Apply filters to the packages
+                const filteredPackages = applyFilters(availablePackages);
+                
+                if (filteredPackages.length === 0) {
+                    packagesGrid.innerHTML = `
+                        <div style=\"grid-column: 1 / -1; text-align: center; padding: 3rem; color: #666;\">
+                            <h3>No packages match your filters</h3>
+                            <p>Try adjusting your search criteria to see more results.</p>
+                            <button onclick=\"clearFilters()\" style=\"margin-top: 1rem; padding: 0.5rem 1rem; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;\">Clear All Filters</button>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Separate packages: matching destination first, then others
+                const matchingPackages = [];
+                const otherPackages = [];
+                
+                filteredPackages.forEach(package => {
+                    if (!destination || package.location.toLowerCase().includes(destination.toLowerCase()) || 
+                        package.title.toLowerCase().includes(destination.toLowerCase())) {
+                        matchingPackages.push(package);
+                    } else {
+                        otherPackages.push(package);
+                    }
+                });
+                
+                // Display matching packages first
+                if (matchingPackages.length > 0) {
+                    // Add a section header for matching packages
+                    const matchingHeader = document.createElement('div');
+                    matchingHeader.style.gridColumn = '1 / -1';
+                    matchingHeader.style.marginBottom = '1rem';
+                    matchingHeader.style.padding = '1rem';
+                    matchingHeader.style.background = '#f8f9fa';
+                    matchingHeader.style.borderRadius = '8px';
+                    matchingHeader.style.borderLeft = '4px solid #3498db';
+                    matchingHeader.innerHTML = `<h3 style="color: #2c3e50; margin: 0;">Packages matching "${destination}" (${matchingPackages.length})</h3>`;
+                    packagesGrid.appendChild(matchingHeader);
+                    
+                    matchingPackages.forEach(package => {
+                        const packageCard = createPackageCard(package);
+                        packagesGrid.appendChild(packageCard);
+                    });
+                }
+                
+                // Display other packages if there are any
+                if (otherPackages.length > 0) {
+                    // Add a section header for other packages
+                    const otherHeader = document.createElement('div');
+                    otherHeader.style.gridColumn = '1 / -1';
+                    otherHeader.style.marginTop = '2rem';
+                    otherHeader.style.marginBottom = '1rem';
+                    otherHeader.style.padding = '1rem';
+                    otherHeader.style.background = '#f8f9fa';
+                    otherHeader.style.borderRadius = '8px';
+                    otherHeader.style.borderLeft = '4px solid #95a5a6';
+                    otherHeader.innerHTML = `<h3 style="color: #2c3e50; margin: 0;">Other Available Packages (${otherPackages.length})</h3>`;
+                    packagesGrid.appendChild(otherHeader);
+                    
+                    otherPackages.forEach(package => {
+                        const packageCard = createPackageCard(package);
+                        packagesGrid.appendChild(packageCard);
+                    });
+                }
+                
+                // If no matching packages found, show a message
+                if (matchingPackages.length === 0 && otherPackages.length > 0) {
+                    const noMatchMessage = document.createElement('div');
+                    noMatchMessage.style.gridColumn = '1 / -1';
+                    noMatchMessage.style.textAlign = 'center';
+                    noMatchMessage.style.padding = '2rem';
+                    noMatchMessage.style.color = '#666';
+                    noMatchMessage.innerHTML = `
+                        <h3>No packages found for "${destination}"</h3>
+                        <p>But here are other great destinations you might like:</p>
+                    `;
+                    packagesGrid.appendChild(noMatchMessage);
+                }
+                
+                // Show active filters
+                showActiveFilters();
+            }
+        }
+        
+        // Function to create a package card
+        function createPackageCard(package) {
+            const card = document.createElement('div');
+            card.className = 'package-card';
+            
+            // Use actual rating if present, otherwise generate for demo
+            const rating = (typeof package.rating === 'number') ? package.rating.toFixed(1) : (4 + (package.id % 10) / 10).toFixed(1);
+            
+            card.innerHTML = `
+                <div class="package-image">
+                    <img src="${package.image}" alt="${package.title}">
+                    <div class="package-price">RM ${package.price.toFixed(2)}</div>
+                </div>
+                <div class="package-details">
+                    <h3><a href="package-detail.html?packageId=${package.id}" style="color: #2c3e50; text-decoration: underline; cursor: pointer;">${package.title}</a></h3>
+                    <p>${package.description}</p>
+                    <div class="package-features">
+                        <div class="feature">
+                            <i class="fas fa-clock"></i>
+                            <span>${package.duration} Days</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${package.location}</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-star"></i>
+                            <span>${rating}</span>
+                        </div>
+                    </div>
+                    ${package.highlights ? `<p style=\"font-size: 0.9rem; color: #3498db; margin-bottom: 1rem;\"><strong>Highlights:</strong> ${package.highlights}</p>` : ''}
+                    <button class="book-btn" onclick="bookPackageAndSave(${package.id})" data-i18n="bookNow">Book Now</button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Save selected package ID and redirect
+        function bookPackageAndSave(packageId) {
+            const packages = JSON.parse(localStorage.getItem('packages') || '[]');
+            const selectedPackage = packages.find(pkg => pkg.id === packageId);
+            if (selectedPackage) {
+                sessionStorage.setItem('selectedPackageId', selectedPackage.id);
+                sessionStorage.setItem('selectedPackageName', selectedPackage.title);
+            } else {
+            sessionStorage.setItem('selectedPackageId', packageId);
+                sessionStorage.setItem('selectedPackageName', 'Unknown Package');
+            }
+            bookPackage(packageId);
+        }
+
+        function filterPackages() {
+            // Show active filters
+            showActiveFilters();
+            // Reload packages with current filters
+            loadPackages();
+        }
+
+        // Function to apply filters to packages
+        function applyFilters(packages) {
+            const duration = document.getElementById('duration').value;
+            const price = document.getElementById('price').value;
+            const rating = document.getElementById('rating').value;
+            const earlyBird = document.getElementById('early-bird').checked;
+            const groupDiscount = document.getElementById('group-discount').checked;
+            const groupTour = document.getElementById('group-tour').checked;
+            const familyFriendly = document.getElementById('family-friendly').checked;
+            const luxury = document.getElementById('luxury').checked;
+            
+            return packages.filter(package => {
+                // Duration filter
+                if (duration) {
+                    const packageDuration = package.duration;
+                    if (duration === '3-5' && (packageDuration < 3 || packageDuration > 5)) return false;
+                    if (duration === '6-9' && (packageDuration < 6 || packageDuration > 9)) return false;
+                    if (duration === '10+' && packageDuration < 10) return false;
+                }
+                
+                // Price filter
+                if (price) {
+                    const packagePrice = package.price;
+                    if (price === '0-1999' && packagePrice >= 2000) return false;
+                    if (price === '2000-4999' && (packagePrice < 2000 || packagePrice >= 5000)) return false;
+                    if (price === '5000-9999' && (packagePrice < 5000 || packagePrice >= 10000)) return false;
+                    if (price === '10000+' && packagePrice < 10000) return false;
+                }
+                
+                // Rating filter (use actual rating if present)
+                if (rating) {
+                    let packageRating = (typeof package.rating === 'number') ? package.rating : 4 + (package.id % 10) / 10;
+                    if (rating === '4+' && packageRating < 4) return false;
+                    if (rating === '3+' && (packageRating < 3 || packageRating >= 4)) return false;
+                    if (rating === '2+' && (packageRating < 2 || packageRating >= 3)) return false;
+                }
+                
+                // Additional filters (these would need to be added to package data in a real implementation)
+                // For now, we'll simulate these filters based on package characteristics
+                if (earlyBird) {
+                    // Simulate early bird pricing for packages under RM3000
+                    if (package.price >= 3000) return false;
+                }
+                
+                if (groupDiscount) {
+                    // Simulate group discount for packages over RM2000
+                    if (package.price < 2000) return false;
+                }
+                
+                if (groupTour) {
+                    // Simulate group tour for longer duration packages
+                    if (package.duration < 5) return false;
+                }
+                
+                if (familyFriendly) {
+                    // Simulate family-friendly for moderate price packages
+                    if (package.price > 5000) return false;
+                }
+                
+                if (luxury) {
+                    // Simulate luxury for high-price packages
+                    if (package.price < 4000) return false;
+                }
+                
+                return true;
+            });
+        }
+
+        // Function to clear all filters
+        function clearFilters() {
+            document.getElementById('duration').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('rating').value = '';
+            document.getElementById('early-bird').checked = false;
+            document.getElementById('group-discount').checked = false;
+            document.getElementById('group-tour').checked = false;
+            document.getElementById('family-friendly').checked = false;
+            document.getElementById('luxury').checked = false;
+            
+            // Remove active filters display
+            const existingActiveFilters = document.querySelector('.active-filters');
+            if (existingActiveFilters) {
+                existingActiveFilters.remove();
+            }
+            
+            // Reload packages without filters
+            loadPackages();
+        }
+
+        // Function to show active filters
+        function showActiveFilters() {
+            const duration = document.getElementById('duration').value;
+            const price = document.getElementById('price').value;
+            const rating = document.getElementById('rating').value;
+            const earlyBird = document.getElementById('early-bird').checked;
+            const groupDiscount = document.getElementById('group-discount').checked;
+            const groupTour = document.getElementById('group-tour').checked;
+            const familyFriendly = document.getElementById('family-friendly').checked;
+            const luxury = document.getElementById('luxury').checked;
+            
+            const activeFilters = [];
+            
+            if (duration) activeFilters.push({ type: 'duration', value: duration, label: `Duration: ${duration}` });
+            if (price) activeFilters.push({ type: 'price', value: price, label: `Price: ${price}` });
+            if (rating) activeFilters.push({ type: 'rating', value: rating, label: `Rating: ${rating}` });
+            if (earlyBird) activeFilters.push({ type: 'early-bird', value: true, label: 'Early-Bird Pricing' });
+            if (groupDiscount) activeFilters.push({ type: 'group-discount', value: true, label: 'Group Discount' });
+            if (groupTour) activeFilters.push({ type: 'group-tour', value: true, label: 'Group Tour' });
+            if (familyFriendly) activeFilters.push({ type: 'family-friendly', value: true, label: 'Family-friendly' });
+            if (luxury) activeFilters.push({ type: 'luxury', value: true, label: 'Luxury' });
+            
+            // Remove existing active filters display
+            const existingActiveFilters = document.querySelector('.active-filters');
+            if (existingActiveFilters) {
+                existingActiveFilters.remove();
+            }
+            
+            // Add active filters display if there are any
+            if (activeFilters.length > 0) {
+                const searchHeader = document.querySelector('.search-header');
+                const activeFiltersDiv = document.createElement('div');
+                activeFiltersDiv.className = 'active-filters';
+                activeFiltersDiv.innerHTML = '<strong>Active Filters:</strong>';
+                
+                activeFilters.forEach(filter => {
+                    const filterTag = document.createElement('span');
+                    filterTag.className = 'active-filter-tag';
+                    filterTag.innerHTML = `
+                        ${filter.label}
+                        <span class="remove" onclick="removeFilter('${filter.type}')">&times;</span>
+                    `;
+                    activeFiltersDiv.appendChild(filterTag);
+                });
+                
+                searchHeader.appendChild(activeFiltersDiv);
+            }
+        }
+
+        // Function to remove individual filter
+        function removeFilter(filterType) {
+            switch (filterType) {
+                case 'duration':
+                    document.getElementById('duration').value = '';
+                    break;
+                case 'price':
+                    document.getElementById('price').value = '';
+                    break;
+                case 'rating':
+                    document.getElementById('rating').value = '';
+                    break;
+                case 'early-bird':
+                    document.getElementById('early-bird').checked = false;
+                    break;
+                case 'group-discount':
+                    document.getElementById('group-discount').checked = false;
+                    break;
+                case 'group-tour':
+                    document.getElementById('group-tour').checked = false;
+                    break;
+                case 'family-friendly':
+                    document.getElementById('family-friendly').checked = false;
+                    break;
+                case 'luxury':
+                    document.getElementById('luxury').checked = false;
+                    break;
+            }
+            
+            // Show active filters and reload packages with updated filters
+            showActiveFilters();
+            loadPackages();
+        }
+
+        function bookPackage(packageId) {
+            // Check if user is logged in
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                // Redirect to the discount page with the package ID
+                window.location.href = `discount.html?packageId=${packageId}`;
+            } else {
+                // Store intended package and redirect to login
+                localStorage.setItem('intendedPackageId', packageId);
+                window.location.href = 'login.html';
+            }
+        }
+
+        function logout() {
+            // Here you would typically clear any session data
+            window.location.href = 'index.html';
+        }
+
+        function toggleMoreFilters() {
+            const additionalFilters = document.getElementById('additional-filters');
+            const chevron = document.getElementById('chevron');
+            if (additionalFilters.style.display === 'none') {
+                additionalFilters.style.display = 'block';
+                chevron.textContent = '▲';
+            } else {
+                additionalFilters.style.display = 'none';
+                chevron.textContent = '▼';
+            }
+        }
+
+        // User icon dropdown logic
+        document.addEventListener('DOMContentLoaded', function() {
+            var userIcon = document.getElementById('userIconClickable');
+            var userDropdown = document.getElementById('userDropdown');
+            var userIconContainer = document.getElementById('userIconContainer');
+            var navLinks = document.getElementById('navLinks');
+            if (userIcon) {
+                userIcon.onclick = function(e) {
+                    e.stopPropagation();
+                    if (userDropdown.style.display === 'none' || userDropdown.style.display === '') {
+                        userDropdown.style.display = 'flex';
+                    } else {
+                        userDropdown.style.display = 'none';
+                    }
+                };
+                document.body.addEventListener('click', function() {
+                    if (userDropdown) userDropdown.style.display = 'none';
+                });
+            }
+            // Hide login/signup when logged in, show only icon
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                if (navLinks) {
+                    var loginBtn = navLinks.querySelector('.login-btn');
+                    var signupBtn = navLinks.querySelector('.signup-btn');
+                    if (loginBtn) loginBtn.style.display = 'none';
+                    if (signupBtn) signupBtn.style.display = 'none';
+                    if (userIconContainer) userIconContainer.style.display = 'flex';
+                }
+            }
+        });
+    </script>
+</body>
+</html> 
