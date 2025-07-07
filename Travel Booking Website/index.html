@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIKAYAT TRAVELS & TOURS - Find Your Perfect Travel Package</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header style="background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+        <nav style="display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:0.7rem 3vw;min-height:68px;">
+            <div class="nav-left" style="display: flex; align-items: center;">
+                <div class="logo" style="display: flex; align-items: center;">
+                    <img src="images/logo.jpg" alt="Hikayat Logo" class="site-logo" style="height:2.7rem;width:auto;margin-right:1.1rem;display:block;">
+                    <h1 style="margin:0;font-size:1.55rem;letter-spacing:0.5px;">HIKAYAT TRAVELS & TOURS</h1>
+                </div>
+            </div>
+            <div class="nav-right" style="display: flex; align-items: center; gap: 1.1rem;">
+                <!-- Language Switch Toggle -->
+                <label for="filter" class="switch" aria-label="Toggle Filter" style="margin-right: 1.1rem;font-size:1.08rem;">
+                  <input type="checkbox" id="filter" />
+                  <span>English</span>
+                  <span>Malay</span>
+                </label>
+                <!-- End Language Switch Toggle -->
+                <button onclick="window.location.href='login.html'" class="login-btn" data-i18n="login" style="margin-right: 0.4rem;font-size:0.93rem;padding:0.32rem 0.8rem;">Login</button>
+                <a href="login.html" class="signup-btn" data-i18n="signup" style="font-size:1.08rem;padding:0.55rem 1.4rem;">Sign Up</a>
+                <div class="user-icon-container" id="userIconContainer" style="display:none; position: relative;">
+                    <img src="images/usericon.jpg" alt="User Icon" class="user-icon" id="userIconClickable">
+                    <div class="user-dropdown" id="userDropdown" style="display:none;">
+                        <a href="index.html" data-i18n="home">Home</a>
+                        <a href="profile.html" data-i18n="myProfile">My Profile</a>
+                        <a href="#" onclick="logout();return false;" data-i18n="logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1 data-i18n="heroTitle">Discover Your Dream Vacation</h1>
+            <p data-i18n="heroSubtitle">Find the best travel packages tailored to your preferences</p>
+            
+            <div class="search-container">
+                <form id="searchForm" onsubmit="searchPackages(event)">
+                    <div class="search-box">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" id="destination" data-i18n="destinationPlaceholder" placeholder="Where do you want to go?">
+                    </div>
+                    <button type="submit" class="search-btn" data-i18n="searchBtn">Search Packages</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="featured-destinations">
+            <h2 data-i18n="featuredTitle">Popular Destinations</h2>
+            <div class="destination-grid">
+                <div class="destination-card">
+                    <img src="images/bali.jpg" alt="HIKAYAT TRAVELS & TOURS Logo">
+                    <h3>Bali</h3>
+                    <p><span data-i18n="startingFrom">Starting from</span> RM3200</p>
+                </div>
+                <div class="destination-card">
+                    <img src="images/paris.jpg" alt="HIKAYAT TRAVELS & TOURS Logo">
+                    <h3>Paris</h3>
+                    <p><span data-i18n="startingFrom">Starting from</span> RM7500</p>
+                </div>
+                <div class="destination-card">
+                    <img src="images/umrah.jpg" alt="HIKAYAT TRAVELS & TOURS Logo">
+                    <h3>Umrah</h3>
+                    <p><span data-i18n="startingFrom">Starting from</span> RM5000</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 data-i18n="aboutTitle">About Us</h3>
+                <p data-i18n="aboutText">Your trusted partner in finding the perfect travel packages.</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="contactTitle">Contact</h3>
+                <p data-i18n="contactEmail">Email: hikayat.travel@gmail.com</p>  
+                <p data-i18n="contactPhone">Phone: 012-834 3497</p>
+                <p data-i18n="contactAddress">Address: No 15 Jalan Lagenda 3, Taman 1 Lagenda , 75400 Malacca City, Malaysia</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-i18n="copyright">&copy; 2024 HIKAYAT TRAVELS & TOURS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/default-packages.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/language.js"></script>
+    <script>
+        // User icon dropdown logic
+        document.addEventListener('DOMContentLoaded', function() {
+            var userIcon = document.getElementById('userIconClickable');
+            var userDropdown = document.getElementById('userDropdown');
+            var userIconContainer = document.getElementById('userIconContainer');
+            var navRight = document.querySelector('.nav-right');
+            
+            if (userIcon) {
+                userIcon.onclick = function(e) {
+                    e.stopPropagation();
+                    if (userDropdown.style.display === 'none' || userDropdown.style.display === '') {
+                        userDropdown.style.display = 'flex';
+                    } else {
+                        userDropdown.style.display = 'none';
+                    }
+                };
+                document.body.addEventListener('click', function() {
+                    if (userDropdown) userDropdown.style.display = 'none';
+                });
+            }
+            
+            // Handle login state
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                // User is logged in - show user icon on right
+                var loginBtn = navRight.querySelector('.login-btn');
+                var signupBtn = navRight.querySelector('.signup-btn');
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (signupBtn) signupBtn.style.display = 'none';
+                if (userIconContainer) userIconContainer.style.display = 'flex';
+            } else {
+                // User is not logged in - show only login button on right
+                var signupBtn = navRight.querySelector('.signup-btn');
+                if (signupBtn) signupBtn.style.display = 'none';
+            }
+        });
+    </script>
+    <script src="js/chat-widget.js"></script>
+</body>
+</html> 
